@@ -36,6 +36,7 @@ js/config.js                    настройки (ссылка на мессе
 js/data.js                      преподаватели, дни, группы, занятия
 js/main.js                      расписание, фильтры, диалоги, демо-форма
 public/images/school-pattern.jpg фон hero
+public/images/logo-owl.png      сова из логотипа (вырезана из логотипа старого сайта школы abakus-kdr.ru)
 ```
 
 ## Настройка
