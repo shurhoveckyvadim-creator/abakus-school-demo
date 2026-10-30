@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ПРОАБАКУС — частная школа и дополнительные занятия (демо)</title>
+  <meta name="description" content="Демо лендинга частной школы «ПРОАБАКУС»: 1–5 классы и дополнительные занятия.">
+  <meta name="theme-color" content="#218DC7">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержанию</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="logo" href="#top" aria-label="ПРОАБАКУС — на главную">
+        <span class="logo__mark" aria-hidden="true"><span class="logo__pro">ПРО</span><span class="logo__abakus">АБАКУС</span></span>
+        <span class="logo__caption">Частная школа и дополнительные занятия</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Основная навигация">
+        <a class="site-nav__link" href="#schedule">Расписание</a>
+        <button class="btn btn--ghost btn--sm" type="button" data-action="messenger" aria-label="Написать нам">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4.3 3.4A.5.5 0 0 1 4 20V6a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <span class="btn__label-optional">Написать нам</span>
+        </button>
+        <button class="btn btn--primary btn--sm" type="button" data-action="enroll">Пробное занятие</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="container hero__inner">
+        <p class="hero__eyebrow">Частная школа · 1–5 классы · Дополнительные занятия</p>
+        <h1 class="hero__title" id="hero-title">Большое начало в&nbsp;небольшой школе</h1>
+        <p class="hero__lead">Семейная атмосфера, обучение в небольших классах и дополнительные занятия по интересам. Помогаем детям учиться, развиваться и пробовать свои силы в городских и международных олимпиадах.</p>
+
+        <div class="hero__actions">
+          <button class="btn btn--primary btn--lg" type="button" data-action="enroll">Записаться на пробное</button>
+          <a class="btn btn--secondary btn--lg" href="#schedule">Посмотреть расписание</a>
+        </div>
+
+        <ul class="hero__highlights" aria-label="Особенности школы">
+          <li class="highlight">Небольшие классы</li>
+          <li class="highlight">Семейная атмосфера</li>
+          <li class="highlight">Участие в олимпиадах</li>
+        </ul>
+
+        <p class="hero__notice" id="pattern-notice" role="status" hidden></p>
+      </div>
+    </section>
+
+    <section class="schedule" id="schedule" aria-labelledby="schedule-title" tabindex="-1">
+      <div class="container">
+        <div class="schedule__head">
+          <h2 class="schedule__title" id="schedule-title">Подберите удобное время</h2>
+          <p class="schedule__lead">Выберите день, чтобы посмотреть занятия, время и преподавателей</p>
+          <p class="demo-note">
+            <span class="demo-note__tag">Демо</span>
+            Демонстрационное расписание. Занятия и имена преподавателей приведены для примера.
+          </p>
+        </div>
+
+        <div class="schedule__controls">
+          <div class="days" role="group" aria-label="День недели" id="day-list"></div>
+
+          <div class="filters">
+            <fieldset class="filter">
+              <legend class="filter__legend">Тип занятий</legend>
+              <div class="filter__options" id="type-filter"></div>
+            </fieldset>
+            <fieldset class="filter">
+              <legend class="filter__legend">Группа</legend>
+              <div class="filter__options" id="grade-filter"></div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="schedule__results">
+          <p class="schedule__summary" id="schedule-summary" role="status"></p>
+          <ul class="lessons" id="lesson-list"></ul>
+
+          <div class="empty" id="empty-state" hidden>
+            <p class="empty__title">На этот день нет занятий по выбранным фильтрам</p>
+            <p class="empty__text">Попробуйте выбрать другой день или сбросьте фильтры.</p>
+            <button class="btn btn--secondary" type="button" id="reset-filters">Сбросить фильтры</button>
+          </div>
+
+          <p class="schedule__footnote" id="school-footnote" hidden>Школьный день показан укрупнённо. Группировка классов условна и используется только в демо.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="modal" id="enroll-dialog" aria-labelledby="enroll-title" aria-describedby="enroll-context">
+    <div class="modal__box">
+      <div class="modal__head">
+        <h2 class="modal__title" id="enroll-title">Запись на пробное занятие</h2>
+        <button class="modal__close" type="button" data-close aria-label="Закрыть">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <dl class="enroll-context" id="enroll-context"></dl>
+
+      <form class="form" id="enroll-form" novalidate>
+        <div class="field">
+          <label class="field__label" for="parent-name">Имя родителя</label>
+          <input class="field__input" id="parent-name" name="parentName" type="text" autocomplete="name" required minlength="2" maxlength="80" aria-describedby="parent-name-error">
+          <p class="field__error" id="parent-name-error" hidden></p>
+        </div>
+        <div class="field">
+          <label class="field__label" for="parent-phone">Телефон</label>
+          <input class="field__input" id="parent-phone" name="parentPhone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="24" placeholder="+7 900 000-00-00" aria-describedby="parent-phone-error">
+          <p class="field__error" id="parent-phone-error" hidden></p>
+        </div>
+
+        <p class="form__demo">Демонстрационная форма — данные не отправляются</p>
+
+        <button class="btn btn--primary btn--block" type="submit">Проверить запись — демо</button>
+
+        <p class="form__result" id="enroll-result" role="status" hidden></p>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog class="modal modal--small" id="messenger-dialog" aria-labelledby="messenger-title" aria-describedby="messenger-text">
+    <div class="modal__box">
+      <div class="modal__head">
+        <h2 class="modal__title" id="messenger-title">Написать нам</h2>
+        <button class="modal__close" type="button" data-close aria-label="Закрыть">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <p class="modal__text" id="messenger-text">Связь со школой будет подключена в полной версии</p>
+      <button class="btn btn--secondary btn--block" type="button" data-close>Понятно</button>
+    </div>
+  </dialog>
+</body>
+</html>
