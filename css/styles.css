@@ -181,66 +181,38 @@ a { color: var(--c-blue-strong); }
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 10px;
   flex: none;
   margin-left: auto;
 }
 
 .site-header__cta { flex: none; }
 
-.site-nav__link {
-  padding: 8px 10px;
-  border-radius: var(--radius-sm);
-  color: var(--c-text);
-  font-weight: 600;
+/* Обе кнопки шапки одной высоты и с одинаковыми отступами */
+.btn--header {
+  min-height: 42px;
+  padding: 9px 18px;
   font-size: .9375rem;
-  text-decoration: none;
 }
-.site-nav__link:hover { color: var(--c-blue-strong); background: var(--c-blue-soft); }
 
-/* Телефон: две строки — логотип с подписью и запись, ниже навигация.
-   Шапка не липкая, чтобы не занимать экран при прокрутке. */
+/* Телефон: логотип с подписью в первой строке, две равные кнопки во второй.
+   Ничего не скрывается. Шапка не липкая, чтобы не занимать экран при прокрутке. */
 @media (max-width: 767px) {
   :root { --header-h: 0px; }
   .site-header { position: static; }
   .site-header__inner {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas: "logo cta" "nav nav";
-    gap: 10px 12px;
-    padding-block: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas: "logo logo" "nav cta";
+    gap: 10px 8px;
+    padding-block: 10px 12px;
   }
-  .logo { grid-area: logo; gap: 8px; }
+  .logo { grid-area: logo; justify-self: start; gap: 8px; }
   .logo__owl { height: 44px; }
   .logo__mark { font-size: 1.25rem; letter-spacing: .01em; }
   .logo__caption { font-size: .75rem; }
+  .site-nav { grid-area: nav; display: grid; margin-left: 0; }
   .site-header__cta { grid-area: cta; }
-  .site-nav {
-    grid-area: nav;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-left: 0;
-  }
-  .site-nav__link,
-  .site-nav .btn {
-    display: flex;
-    justify-content: center;
-    min-height: 40px;
-    padding: 8px 10px;
-    border: 1.5px solid var(--c-line);
-    border-radius: var(--radius-sm);
-    background: var(--c-surface);
-  }
-  .site-nav__link { align-items: center; line-height: 1.2; }
-}
-
-@media (max-width: 379px) {
-  .logo { gap: 6px; }
-  .logo__owl { height: 38px; }
-  .logo__mark { font-size: 1.0625rem; letter-spacing: 0; }
-  .site-header__inner { column-gap: 8px; }
-  .site-header__cta { padding-inline: 10px; font-size: .875rem; }
+  .btn--header { min-height: 44px; padding: 10px 12px; }
 }
 
 /* ========== Hero ========== */
