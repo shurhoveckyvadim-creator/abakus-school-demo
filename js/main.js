@@ -11,6 +11,14 @@ const els = {
   list: document.getElementById('lesson-list'),
   empty: document.getElementById('empty-state'),
   reset: document.getElementById('reset-filters'),
+  filtersMenu: document.getElementById('filters-menu'),
+  filtersToggle: document.getElementById('filters-toggle'),
+  filtersPanel: document.getElementById('filters-panel'),
+  filtersBackdrop: document.getElementById('filters-backdrop'),
+  filtersCount: document.getElementById('filters-count'),
+  filtersActive: document.getElementById('filters-active'),
+  filtersReset: document.getElementById('filters-reset'),
+  filtersDone: document.getElementById('filters-done'),
   footnote: document.getElementById('school-footnote'),
   patternNotice: document.getElementById('pattern-notice'),
   enrollDialog: document.getElementById('enroll-dialog'),
@@ -159,10 +167,85 @@ function renderSchedule() {
   els.list.hidden = list.length === 0;
   els.empty.hidden = list.length !== 0;
   els.footnote.hidden = !list.some((l) => l.type === 'school');
+  renderFiltersSummary();
+}
+
+function renderFiltersSummary() {
+  const active = [];
+  if (state.type !== 'all') active.push(lessonTypes.find((t) => t.id === state.type).label);
+  if (state.grade !== 'all') active.push(grades.find((g) => g.id === state.grade).label);
+
+  els.filtersCount.textContent = String(active.length);
+  els.filtersCount.hidden = active.length === 0;
+  els.filtersToggle.setAttribute('aria-label', active.length ? `Фильтры, выбрано: ${active.length}` : 'Фильтры');
+  els.filtersActive.textContent = active.length ? active.join(' · ') : 'Все занятия · Все группы';
 }
 
 function parseGrade(value) {
   return value === 'all' ? 'all' : Number(value);
+}
+
+function resetFilters() {
+  state.type = config.defaults.type;
+  state.grade = config.defaults.grade;
+  syncOptions(els.typeFilter, state.type);
+  syncOptions(els.gradeFilter, state.grade);
+  renderSchedule();
+}
+
+/* ---------- Filters dropdown ---------- */
+
+// Смещение указателя, после которого касание считается прокруткой, а не нажатием.
+const TAP_TOLERANCE = 10;
+let backdropPointer = null;
+
+function isFiltersOpen() {
+  return !els.filtersPanel.hidden;
+}
+
+function setFiltersOpen(open, { returnFocus = false } = {}) {
+  els.filtersPanel.hidden = !open;
+  els.filtersBackdrop.hidden = !open;
+  els.filtersMenu.classList.toggle('is-open', open);
+  els.filtersToggle.setAttribute('aria-expanded', String(open));
+  backdropPointer = null;
+  if (!open && returnFocus) els.filtersToggle.focus();
+}
+
+function initFiltersMenu() {
+  els.filtersToggle.addEventListener('click', () => setFiltersOpen(!isFiltersOpen()));
+  els.filtersDone.addEventListener('click', () => setFiltersOpen(false, { returnFocus: true }));
+  els.filtersReset.addEventListener('click', resetFilters);
+
+  // Закрываем только по осознанному нажатию на свободное место: подложка перехватывает
+  // нажатие (под ней ничего не срабатывает), а жест прокрутки или протягивание не считаются.
+  els.filtersBackdrop.addEventListener('pointerdown', (e) => {
+    if (!e.isPrimary) return;
+    backdropPointer = { x: e.clientX, y: e.clientY };
+  });
+  // Не отдаём фокус секции под подложкой, иначе focusout закроет панель до конца жеста.
+  els.filtersBackdrop.addEventListener('mousedown', (e) => e.preventDefault());
+  els.filtersBackdrop.addEventListener('pointercancel', () => { backdropPointer = null; });
+  els.filtersBackdrop.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!backdropPointer) return;
+    const moved = Math.hypot(e.clientX - backdropPointer.x, e.clientY - backdropPointer.y);
+    backdropPointer = null;
+    if (moved <= TAP_TOLERANCE) setFiltersOpen(false);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isFiltersOpen()) setFiltersOpen(false, { returnFocus: true });
+  });
+
+  // Закрываем, когда фокус клавиатурой ушёл к другому элементу страницы
+  // (но не к родительской секции, которая получает фокус при нажатии мимо).
+  els.filtersMenu.addEventListener('focusout', (e) => {
+    const next = e.relatedTarget;
+    if (isFiltersOpen() && next && !els.filtersMenu.contains(next) && !next.contains(els.filtersMenu)) {
+      setFiltersOpen(false);
+    }
+  });
 }
 
 function initSchedule() {
@@ -189,13 +272,11 @@ function initSchedule() {
   });
 
   els.reset.addEventListener('click', () => {
-    state.type = config.defaults.type;
-    state.grade = config.defaults.grade;
-    syncOptions(els.typeFilter, state.type);
-    syncOptions(els.gradeFilter, state.grade);
-    renderSchedule();
+    resetFilters();
     els.dayList.querySelector(`[data-day="${state.day}"]`)?.focus();
   });
+
+  initFiltersMenu();
 
   els.list.addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-lesson]');

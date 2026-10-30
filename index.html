@@ -66,16 +66,33 @@
         <div class="schedule__controls">
           <div class="days" role="group" aria-label="День недели" id="day-list"></div>
 
-          <div class="filters">
-            <fieldset class="filter">
-              <legend class="filter__legend">Тип занятий</legend>
-              <div class="filter__options" id="type-filter"></div>
-            </fieldset>
-            <fieldset class="filter">
-              <legend class="filter__legend">Группа</legend>
-              <div class="filter__options" id="grade-filter"></div>
-            </fieldset>
+          <div class="filters-menu" id="filters-menu">
+            <div class="filters-bar">
+              <button class="filters-toggle" type="button" id="filters-toggle" aria-expanded="false" aria-controls="filters-panel">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16M7 12h10M10 18h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                Фильтры
+                <span class="filters-toggle__count" id="filters-count" hidden></span>
+                <svg class="icon filters-toggle__chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <p class="filters-active" id="filters-active"></p>
+            </div>
+
+            <div class="filters-panel" id="filters-panel" role="group" aria-label="Фильтры расписания" hidden>
+              <fieldset class="filter">
+                <legend class="filter__legend">Тип занятий</legend>
+                <div class="filter__options" id="type-filter"></div>
+              </fieldset>
+              <fieldset class="filter">
+                <legend class="filter__legend">Группа</legend>
+                <div class="filter__options" id="grade-filter"></div>
+              </fieldset>
+              <div class="filters-panel__foot">
+                <button class="btn btn--ghost btn--sm" type="button" id="filters-reset">Сбросить</button>
+                <button class="btn btn--primary btn--sm" type="button" id="filters-done">Готово</button>
+              </div>
+            </div>
           </div>
+          <div class="filters-backdrop" id="filters-backdrop" hidden></div>
         </div>
 
         <div class="schedule__results">
