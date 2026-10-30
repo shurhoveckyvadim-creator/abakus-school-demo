@@ -183,7 +183,10 @@ a { color: var(--c-blue-strong); }
   align-items: center;
   gap: 10px;
   flex: none;
+  margin-left: auto;
 }
+
+.site-header__cta { flex: none; }
 
 .site-nav__link {
   padding: 8px 10px;
@@ -195,25 +198,49 @@ a { color: var(--c-blue-strong); }
 }
 .site-nav__link:hover { color: var(--c-blue-strong); background: var(--c-blue-soft); }
 
+/* Телефон: две строки — логотип с подписью и запись, ниже навигация.
+   Шапка не липкая, чтобы не занимать экран при прокрутке. */
 @media (max-width: 767px) {
-  :root { --header-h: 60px; }
-  .logo__mark { font-size: 1.25rem; }
-  .logo { gap: 8px; }
-  .logo__owl { height: 40px; }
-  .logo__caption,
+  :root { --header-h: 0px; }
+  .site-header { position: static; }
+  .site-header__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "logo cta" "nav nav";
+    gap: 10px 12px;
+    padding-block: 10px;
+  }
+  .logo { grid-area: logo; gap: 8px; }
+  .logo__owl { height: 44px; }
+  .logo__mark { font-size: 1.25rem; letter-spacing: .01em; }
+  .logo__caption { font-size: .75rem; }
+  .site-header__cta { grid-area: cta; }
+  .site-nav {
+    grid-area: nav;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-left: 0;
+  }
   .site-nav__link,
-  .btn__label-optional { display: none; }
-  .site-nav { gap: 8px; }
-  .site-nav .btn--ghost { width: 40px; padding: 0; }
+  .site-nav .btn {
+    display: flex;
+    justify-content: center;
+    min-height: 40px;
+    padding: 8px 10px;
+    border: 1.5px solid var(--c-line);
+    border-radius: var(--radius-sm);
+    background: var(--c-surface);
+  }
+  .site-nav__link { align-items: center; line-height: 1.2; }
 }
 
-@media (max-width: 399px) {
-  .logo__mark { font-size: 1.125rem; letter-spacing: 0; }
+@media (max-width: 379px) {
   .logo { gap: 6px; }
-  .logo__owl { height: 34px; }
-  .site-header__inner { gap: 10px; }
-  .site-nav { gap: 6px; }
-  .site-nav .btn--primary { padding-inline: 12px; }
+  .logo__owl { height: 38px; }
+  .logo__mark { font-size: 1.0625rem; letter-spacing: 0; }
+  .site-header__inner { column-gap: 8px; }
+  .site-header__cta { padding-inline: 10px; font-size: .875rem; }
 }
 
 /* ========== Hero ========== */
