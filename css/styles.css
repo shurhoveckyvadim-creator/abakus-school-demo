@@ -251,7 +251,7 @@ a { color: var(--c-blue-strong); }
 }
 
 .hero__title {
-  max-width: 18ch;
+  max-width: 20ch;
   font-size: clamp(2.125rem, 1.4rem + 3vw, 3.75rem);
   line-height: 1.05;
   letter-spacing: -.02em;
